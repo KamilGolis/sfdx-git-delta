@@ -21,6 +21,7 @@ export const getWork = (): Work => ({
     source: './',
     output: 'output',
     generateDelta: true,
+    changed: false,
     to: '',
     from: '',
     ignore: '',

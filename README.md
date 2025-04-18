@@ -147,7 +147,7 @@ Generate incremental package manifest and source content
 
 ```
 USAGE
-  $ sf sgd source delta -f <value> [--json] [--flags-dir <value>] [-t <value>] [-d] [-o <value>] [-r <value>] [-s
+  $ sf sgd source delta -f <value> [--json] [--flags-dir <value>] [-c] [-t <value>] [-d] [-o <value>] [-r <value>] [-s
     <value>] [-i <value>] [-D <value>] [-n <value>] [-N <value>] [-W] [-a <value>]
 
 FLAGS
@@ -156,6 +156,7 @@ FLAGS
   -W, --ignore-whitespace                 ignore git diff whitespace (space, tab, eol) changes
   -a, --api-version=<value>               salesforce metadata API version, default to sfdx-project.json
                                           "sourceApiVersion" attribute or latest version
+  -c, --changed                           use changed local files instead of commit diff
   -d, --generate-delta                    generate delta files in [--output-dir] folder
   -f, --from=<value>                      (required) commit sha from where the diff is done
   -i, --ignore-file=<value>               file listing paths to explicitly ignore for any diff actions
@@ -164,13 +165,6 @@ FLAGS
   -r, --repo-dir=<value>                  [default: ./] git repository location
   -s, --source-dir=<value>                [default: ./] source folder focus location related to --repo-dir
   -t, --to=<value>                        [default: HEAD] commit sha to where the diff is done
-      --ignore=<value>                    /!\ deprecated, use '--ignore-file' instead.
-      --ignore-destructive=<value>        /!\ deprecated, use '--ignore-destructive-file' instead.
-      --include=<value>                   /!\ deprecated, use '--include-file' instead.
-      --include-destructive=<value>       /!\ deprecated, use '--include-destructive-file' instead.
-      --output=<value>                    /!\ deprecated, use '--output-dir' instead.
-      --repo=<value>                      /!\ deprecated, use '--repo-dir' instead.
-      --source=<value>                    /!\ deprecated, use '--source-dir' instead.
 
 GLOBAL FLAGS
   --flags-dir=<value>  Import flag values from a directory.
@@ -195,7 +189,7 @@ FLAG DESCRIPTIONS
     Override the api version used for api requests made by this command
 ```
 
-_See code: [src/commands/sgd/source/delta.ts](https://github.com/scolladon/sfdx-git-delta/blob/main/src/commands/sgd/source/delta.ts)_
+_See code: [src/commands/sgd/source/delta.ts](https://github.com/scolladon/sfdx-git-delta/blob/v6.6.0/src/commands/sgd/source/delta.ts)_
 <!-- commandsstop -->
 
 ### Windows users

@@ -21,6 +21,7 @@ const mockedReadFile = jest.mocked(readFile)
 describe('ignoreHelper', () => {
   let sut: IgnoreHelper
   const config: Config = {
+    changed: false,
     to: '',
     from: '',
     output: '',

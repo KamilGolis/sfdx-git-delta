@@ -16,6 +16,7 @@ jest.mock('../../../../src/utils/fsHelper')
 describe('fxpHelper', () => {
   describe('parseXmlFileToJson', () => {
     const config: Config = {
+      changed: false,
       from: '',
       to: '',
       output: '',

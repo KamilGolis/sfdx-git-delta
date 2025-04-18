@@ -9,6 +9,7 @@ import PackageBuilder, {
 
 const config: Config = {
   apiVersion: 46,
+  changed: false,
   to: '',
   from: '',
   output: '',

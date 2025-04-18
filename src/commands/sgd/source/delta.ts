@@ -20,6 +20,10 @@ export default class SourceDeltaGenerate extends SfCommand<SgdResult> {
   public static override readonly examples = messages.getMessages('examples')
 
   public static override readonly flags = {
+    changed: Flags.boolean({
+      char: 'c',
+      summary: messages.getMessage('flags.changed.summary'),
+    }),
     from: Flags.string({
       char: 'f',
       summary: messages.getMessage('flags.from.summary'),
@@ -101,7 +105,8 @@ export default class SourceDeltaGenerate extends SfCommand<SgdResult> {
 
     const config: Config = {
       apiVersion: parseInt(flags['api-version']!) || undefined,
-      from: flags['from'],
+      changed: flags.changed,
+      from: flags.from,
       generateDelta: flags['generate-delta'],
       ignore: flags['ignore-file'],
       ignoreDestructive: flags['ignore-destructive-file'],

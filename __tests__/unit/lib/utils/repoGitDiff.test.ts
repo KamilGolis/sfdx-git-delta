@@ -41,6 +41,7 @@ describe(`test if repoGitDiff`, () => {
 
   beforeEach(() => {
     config = {
+      changed: false,
       to: '',
       from: '',
       output: '',
