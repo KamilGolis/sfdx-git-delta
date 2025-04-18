@@ -1,6 +1,6 @@
 import { join } from 'node:path/posix'
 
-import { SimpleGit, simpleGit } from 'simple-git'
+import { SimpleGit, StatusResult, simpleGit } from 'simple-git'
 
 import { TAB } from '../constant/cliConstants.js'
 import { PATH_SEP, UTF8_ENCODING } from '../constant/fsConstants.js'
@@ -159,6 +159,61 @@ export default class GitAdapter {
   }
 
   public async getDiffLines(): Promise<string[]> {
+    let lines: string[]
+    if (this.config.changed) {
+      lines = await this.getChangedFiles()
+    } else {
+      lines = await this.getDiffBetweenRefs()
+    }
+    return lines.map(treatPathSep)
+  }
+
+  protected async getChangedFiles(): Promise<string[]> {
+    const status: StatusResult = await this.simpleGit.status()
+    const lines = new Set<string>()
+
+    const mapStatusToChangeType = (filePath: string, statusChar: string) => {
+      let changeType: string | undefined
+      switch (statusChar) {
+        case 'A':
+        case '?':
+          changeType = ADDITION
+          break
+        case 'M':
+        case 'U':
+          changeType = MODIFICATION
+          break
+        case 'D':
+          changeType = DELETION
+          break
+      }
+      if (changeType) {
+        lines.add(`${changeType}${TAB}${filePath}`)
+      }
+    }
+
+    for (const file of status.files) {
+      mapStatusToChangeType(file.path, file.index)
+      mapStatusToChangeType(file.path, file.working_dir)
+    }
+
+    for (const rename of status.renamed) {
+      lines.add(`${ADDITION}${TAB}${rename.to}`)
+    }
+
+    const sourcePrefix = this.config.source.endsWith(PATH_SEP)
+      ? this.config.source
+      : `${this.config.source}${PATH_SEP}`
+
+    return Array.from(lines).filter(
+      line =>
+        line
+          .split(TAB)[1]
+          ?.startsWith(this.config.source === './' ? '' : sourcePrefix) ?? false
+    )
+  }
+
+  protected async getDiffBetweenRefs(): Promise<string[]> {
     let lines: string[] = []
     for (const changeType of [ADDITION, MODIFICATION, DELETION]) {
       const linesOfType = await this.getDiffForType(changeType)
@@ -168,7 +223,7 @@ export default class GitAdapter {
         )
       )
     }
-    return lines.map(treatPathSep)
+    return lines
   }
 
   protected async getDiffForType(changeType: string): Promise<string[]> {

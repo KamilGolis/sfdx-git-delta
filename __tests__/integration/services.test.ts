@@ -480,6 +480,7 @@ beforeEach(() => {
       source: '',
       repo: '',
       generateDelta: true,
+      changed: false,
       to: '',
       from: '',
       ignore: '',

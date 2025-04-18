@@ -1,4 +1,5 @@
 export type Config = {
+  changed: boolean
   to: string
   from: string
   output: string

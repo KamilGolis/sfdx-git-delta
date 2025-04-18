@@ -24,6 +24,10 @@ commit sha to where the diff is done
 
 commit sha from where the diff is done
 
+# flags.changed.summary
+
+use changed local files instead of commit diff
+
 # flags.repo.summary
 
 git repository location
